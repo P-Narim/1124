@@ -1,31 +1,54 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: panri
-  Date: 25. 11. 16.
-  Time: 오후 11:03
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<% request.setCharacterEncoding("UTF-8"); %>
-<meta charset="UTF-8">
-<html lang="en">
-<!DOCTYPE html>
-<%@ include file="bootstrap.jsp" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="com.example.project22.dao.BoardDAO" %>
+<%@ page import="com.example.project22.vo.BoardVO" %>
 
-<body class="container py-4">
+<jsp:include page="header.jsp" />
 
-<h2>View Post</h2>
+<%
+    request.setCharacterEncoding("UTF-8");
 
-<div class="card p-4 shadow-sm">
-    <p><strong>ID:</strong> <%= request.getParameter("id") %></p>
-    <p><strong>Title:</strong> <%= request.getParameter("title") %></p>
-    <p><strong>Writer:</strong> <%= request.getParameter("writer") %></p>
-    <p><strong>Content:</strong> <%= request.getParameter("content") %></p>
+    int num = Integer.parseInt(request.getParameter("num"));
+
+    BoardDAO dao = new BoardDAO();
+    BoardVO vo = dao.getView(num);
+%>
+
+<h3>View</h3>
+
+<table class="table table-bordered">
+    <tr>
+        <th style="width: 120px;">Num</th>
+        <td><%= vo.getNum() %></td>
+    </tr>
+    <tr>
+        <th>Title</th>
+        <td><%= vo.getTitle() %></td>
+    </tr>
+    <tr>
+        <th>Writer</th>
+        <td><%= vo.getWriter() %></td>
+    </tr>
+    <tr>
+        <th>Date</th>
+        <td><%= vo.getRegdate() %></td>
+    </tr>
+    <tr>
+        <th>Views</th>
+        <td><%= vo.getHit() %></td>
+    </tr>
+    <tr>
+        <th>Content</th>
+        <td style="height:200px; white-space:pre-line;">
+            <%= vo.getContent() %>
+        </td>
+    </tr>
+</table>
+
+<div class="mt-3">
+    <a href="edit.jsp?num=<%= vo.getNum() %>" class="btn btn-warning">Edit</a>
+    <a href="delete_ok.jsp?num=<%= vo.getNum() %>" class="btn btn-danger">Delete</a>
+    <a href="list.jsp" class="btn btn-secondary">Back to List</a>
 </div>
 
-<a href="list.jsp" class="btn btn-secondary mt-3">Back</a>
-
-</body>
-</html>
-
+<jsp:include page="footer.jsp" />
 

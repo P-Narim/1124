@@ -1,22 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Index</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="container py-5">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:include page="header.jsp" />
 
-<h1 class="mb-4">Home</h1>
+<h3>Main page</h3>
+<a href="list.jsp" class="btn btn-primary mt-3">Show List</a>
 
-<div class="list-group">
-    <a href="form.html" class="list-group-item list-group-item-action">Form Test</a>
-    <a href="list.jsp" class="list-group-item list-group-item-action">Post List</a>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<jsp:include page="footer.jsp" />
 
