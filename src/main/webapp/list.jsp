@@ -1,47 +1,66 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: panri
-  Date: 25. 11. 16.
-  Time: 오후 5:48
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html; charset=UTF-8" %>
-<% request.setCharacterEncoding("UTF-8"); %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>List</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-</head>
-<body>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.project22.dao.BoardDAO" %>
+<%@ page import="com.example.project22.vo.BoardVO" %>
 
-<h1>List</h1>
+<jsp:include page="header.jsp" />
 
-<table border="1" cellpadding="8" cellspacing="0">
+<%
+    request.setCharacterEncoding("UTF-8");
+
+    String q = request.getParameter("q");
+    BoardDAO dao = new BoardDAO();
+    java.util.ArrayList<BoardVO> list;
+
+    if (q != null && !q.trim().equals("")) {
+        list = dao.search(q);
+    } else {
+        list = dao.getList();
+        q = "";
+    }
+%>
+
+<h3>List</h3>
+
+<!-- 검색기능 구현 -->
+<form action="list.jsp" method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="text" name="q" value="<%= q %>" class="form-control" placeholder="Search title or content">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+        <a href="list.jsp" class="btn btn-outline-secondary">Reset</a>
+    </div>
+</form>
+
+<a href="write.jsp" class="btn btn-success mt-2 mb-3">Write</a>
+
+<table class="table table-bordered">
+    <thead>
     <tr>
-        <th>ID</th>
+        <th>Num</th>
         <th>Title</th>
         <th>Writer</th>
-        <th>Management</th>
+        <th>Views</th>
+        <th>Date</th>
     </tr>
-
+    </thead>
+    <tbody>
+    <% if (list.size() == 0) { %>
     <tr>
-        <td>1</td>
-        <td><a href="view.jsp?id=1">첫글</a></td>
-        <td>박나림</td>
-        <td>
-            <a href="edit.jsp?id=1">Edit</a> |
-            <a href="delete_ok.jsp?id=1">Delete</a>
-        </td>
+        <td colspan="5" class="text-center">No posts found.</td>
     </tr>
-
+    <% } else {
+        for (BoardVO vo : list) { %>
     <tr>
-        <td colspan="4" style="text-align:center">
-            <a href="write.html">Write</a>
-        </td>
+        <td><%= vo.getNum() %></td>
+        <td><a href="view.jsp?num=<%= vo.getNum() %>"><%= vo.getTitle() %></a></td>
+        <td><%= vo.getWriter() %></td>
+        <td><%= vo.getHit() %></td>
+        <td><%= vo.getRegdate() %></td>
     </tr>
+    <%   }
+    } %>
+    </tbody>
 </table>
 
-</body>
-</html>
+<jsp:include page="footer.jsp" />
